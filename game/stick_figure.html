@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stick Figure</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		span.decision{
+			font-weight: bold;
+			border: thin solid #000000;
+			padding: 2px;
+			background-color: #DDDDDD;
+		}
+		span.decisioninverse{
+			font-weight: bold;
+			color: #FFFFFF;
+			border: thin solid #DDDDDD;
+			padding: 5px;
+			background-color: #000000;
+		}
+		#messageHelp{
+			padding: 10px;
+		}
+	</style>
+	<script type="text/javascript">
+		var scene = 0;
+		function changePicture(constb) {
+			var message = "";
+			var decision1 = "";
+			var decision2 = "";
+
+			switch(scene){
+				case 0:
+					scene = 1;
+					message = "Your journey begins at a fork in the road.";
+					decision1 = "Take the Path";
+					decision2 = "Take the bridge";
+					break;
+				case 1:
+					if (constb == 1) {
+						scene = 2;
+						message = "You have arrived at a cute little house in the woods.";
+						decision1 = "Walk around back";
+						decision2 = "Knock on door";
+					}else {
+						scene = 3;
+						message = "You are standing on the bridge overlooking a peaceful stream.";
+						decision1 = "Walk across bridge";
+						decision2 = "Gaze into stream";
+					}
+					break;
+				case 2:
+					if (constb == 1) {
+						scene = 4;
+						message = "Peeking through the window, you see a witch inside the house.";
+						decision1 = "Sneak by window";
+						decision2 = "Wave at witch";
+					}else {
+						scene = 5;
+						message = "Sorry, a witch lives in the house and you just became part of her stew.";
+						decision1 = "The end";
+						decision2 = "";
+					}
+					break;
+				case 3:
+					if (constb == 1) {
+						scene = 6;
+						message = "Sorry, a troll lives on the other side of the bridge and you just became his lunch.";
+						decision1 = "The end";
+						decision2 = "";
+					}else {
+						scene = 7;
+						message = "Your stare is interrupted by the arrival of a huge troll.";
+						decision1 = "Say hello totroll";
+						decision2 = "Jump into stream";
+					}
+					break;
+				case 4:
+					if (constb == 1) {
+						scene = 8;
+						message = "To be continued.";
+						decision1 = "To be continued";
+						decision2 = "";
+					}else {
+						scene = 5;
+						message = "Sorry, you became part of the witch's stew.";
+						decision1 = "The end";
+						decision2 = "";
+					}
+					break;
+				case 5:
+					break;
+				case 6:
+					break;
+				case 7:
+					if (constb ==1) {
+						scene = 6;
+						message = "Sorry, a troll lives on the other side of the bridge and you just became his lunch.";
+						decision1 = "The end";
+						decision2 = "";
+					}else {
+						scene = 8;
+						message = "To be continued.";
+						decision1 = "To be continued";
+						decision2 = "";
+					}
+					break;
+				case 8:
+					break;
+			}
+			
+			document.getElementById('img').src = "scene"+scene+".png";
+			messageHelp("messageHelp",message);
+			messageHelp("button1",decision1);
+			messageHelp("button2",decision2);
+
+			// var decisionElem = document.createElement("p");
+			// decisionElem.appendChild(document.createTextNode('Scene '+ scene + '->' +message));
+			// document.getElementById('history').appendChild(decisionElem);
+		}
+
+		function messageHelp(id,message) {
+			var scen = document.getElementById(id);
+			if (scen) {
+				while(scen.firstChild){
+					scen.removeChild(scen.firstChild);
+				}
+				scen.appendChild(document.createTextNode(message));
+				if (message != "") {
+					scen.style.visibility = "visible";
+				}else{
+					scen.style.visibility = "hidden";
+				}
+			}
+			
+			if (message == "To be continued" || message == "The end") {
+				if(document.getElementById('choose')){
+					document.getElementById('choose').parentNode.removeChild(document.getElementById('choose'));
+				}
+			}
+			
+		}
+	</script>
+</head>
+<body style="text-align: center;">
+<div>
+	<img src="scene0.png" id="img" alt="scene0">
+</div>
+<div id="messageHelp"></div>
+<div id="choose">
+	Please choose:
+	<span id="button1" class="decision" onclick="changePicture(1)" onmouseover="this.className = 'decisioninverse'" onmouseout="this.className = 'decision'" style="visibility: visible;">Start Game!</span>	
+	<span id="button2" class="decision" onclick="changePicture(2)" onmouseover="this.className = 'decisioninverse'" onmouseout="this.className = 'decision'" style="visibility: hidden;"></span>	
+</div>
+<!-- <div id="history">
+	<p>Scene 0->Welcome game!</p>
+</div> -->
+<div>
+	<a href="../index.html">回主页</a>
+</div>
+
+</body>
+</html>
